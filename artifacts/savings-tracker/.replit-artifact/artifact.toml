@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Savings Tracker"
+description = "A personal savings tracker for recording daily income, spending, and savings while reviewing monthly goals and progress."
+version = "1.0.0"
+id = "artifacts/savings-tracker"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18202
+
+[services.development]
+run = "pnpm --filter @workspace/savings-tracker run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/savings-tracker", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/savings-tracker/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18202"
+BASE_PATH = "/"
